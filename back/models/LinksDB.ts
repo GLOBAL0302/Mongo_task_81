@@ -12,6 +12,6 @@ const LinksDBScheme = new Scheme({
   }
 })
 
-const LinksDB = mongoose.model("LinksDB", LinksDBScheme)
+const LinksDB = mongoose.model("LinksDB", LinksDBScheme);
 
 export default LinksDB

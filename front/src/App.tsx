@@ -1,21 +1,35 @@
 import {Box, Button, Grid, TextField, Typography } from '@mui/material';
 import './App.css'
 import React, { useState } from "react";
+import axiosApi from "./axiosApi.ts";
+
+const abc = "abcdefghijklmnopqrstuvwxyz";
 
 const App = () => {
-  const [textMutation, setTextMutaion] = useState<string>('')
+  const [textMutation, setTextMutation] = useState<string>('');
+  const [curretLink, setCurretLink] = useState<string>('');
 
   const onChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
     const {value} = event.target
-    setTextMutaion(value)
+    setTextMutation(value)
   }
 
 
-  const onSubmit = (event:React.FormEvent<HTMLFormElement>)=>{
+  const onSubmit = async(event:React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault();
-    console.log(textMutation);
-  }
+    let rs = "";
+    while (rs.length < 7) {
+      let randomCase = Math.floor(Math.random() * 2)
+      let letter = abc[Math.floor(Math.random() * abc.length)]
+      rs += randomCase ? letter.toUpperCase() : letter.toLocaleLowerCase();
+    }
+    const linkToSubmit = {
+      shortenUrl: rs,
+      originalUrl: textMutation
+    }
+    await axiosApi.post("/links",  linkToSubmit);
 
+  }
 
   return (
     <>
